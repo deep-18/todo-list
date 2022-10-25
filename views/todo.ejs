@@ -57,13 +57,13 @@
 					<input type="submit" value="Add Task" class="btn btn-success">
                 </form>
             </div>
-            <div claass="toggle">
-                <button class="All">All</button>
-                <button class="todo">Todo</button>
-                <button class="completed">Completed</button>
-            </div>
             <div class="col-sm-6 mt-4">
                 <h1 class="alert alert-success text-center">List of Task</h1>
+                <div class="toggle">
+                    <button class="btn btn-success All">All</button>
+                    <button class="btn btn-success todo">Todo</button>
+                    <button class="btn btn-success completed">Completed</button>
+                </div>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -84,16 +84,16 @@
                                 <td>
                                     <% if(data1.status == 'todo') { %>
                                     <form action="/todocompleted/<%= data1._id %>" id="form_completed" class="d-inline" method="post">
-                                        <button type="submit" class="btn">Completed</button>
+                                        <button type="submit" class="btn btn-secondary">Completed</button>
                                     </form>
                                     <% } %>
-                                    <% if(data1.status == 'Completed') { %>
-                                    <form action="/todocompleted/<%= data1._id %>" id="form_completed" class="d-inline" method="post">
-                                        <button type="submit" class="btn">todo</button>
+                                    <!-- <% if(data1.status == 'Completed') { %>
+                                    <form action="/todocompleted/<%= data1._id %>" id="form_completed" class="d-inline " method="post">
+                                        <button type="submit" class="btn btn-secondary">todo</button>
                                     </form>
-                                    <% } %>
+                                    <% } %> -->
                                     <form action="/delete/<%= data1._id %>" class="d-inline" method="post">
-                                        <button type="submit" class="btn">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -106,4 +106,37 @@
     </div>
    
 </body>
+<script>
+    const allButton = document.querySelector('.All')
+    const todo = document.querySelector('.todo')
+    const completed = document.querySelector('.completed')
+    const trs = document.querySelectorAll('tbody tr')
+    allButton.addEventListener('click', () => {
+        trs.forEach((tr) => {
+            if(tr.children[2].textContent == "Completed" || tr.children[2].textContent == "todo" ){
+                tr.removeAttribute('hidden')
+            }
+        })
+    })
+    todo.addEventListener('click', () => {
+        trs.forEach((tr) => {
+            if(tr.children[2].textContent == "todo" ){
+                tr.removeAttribute('hidden')
+            }else{
+                tr.setAttribute('hidden','true')
+
+            }
+        })
+    })
+    completed.addEventListener('click', () => {
+        trs.forEach((tr) => {
+            if(tr.children[2].textContent == "Completed"){
+                tr.removeAttribute('hidden')
+            }else{
+                tr.setAttribute('hidden','true')
+
+            }
+        })
+    })
+</script>
 </html>
