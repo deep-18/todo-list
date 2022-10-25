@@ -148,6 +148,16 @@ router.post('/delete/:id',async function (req, res, next) {
     }
 });
 
+router.post('/deleteCompleted',async function (req, res, next) {
+	try {
+        const result = await Todo.deleteMany( { "status": "Completed" } );;
+		console.log("DELETTEEE",result)
+        res.redirect('/todo')
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.get('/logout', function (req, res, next) {
 	console.log("logout")
 	if (req.session) {
