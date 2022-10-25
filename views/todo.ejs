@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+    <link rel="stylesheet" href="./css/all.css">
+    <link rel="stylesheet" href="./css/bootstrap.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/main.css">
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$( "#form1" ).submit(function(event) {
+				event.preventDefault();
+
+				$.ajax({
+					type: 'POST',
+					url: '/createlist',
+					data: $('#form1').serialize(),
+					dataType: "json",
+					success: function(response){
+						//alert("a");
+						console.log(response.Success);
+						location.reload()
+					},
+					error: function() {
+					}
+				}).then(() => {
+					location.reload()
+				})
+			});
+		});
+	
+	</script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 mt-4">
+                <h1 class="alert alert-primary text-center">Add New Task</h1>
+                <form id="form1" method="post">
+                    <div class="mb-3">
+                      <label for="task" class="form-label">Task</label>
+                      <input type="name" name="task"  class="form-control" id="task" required>
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label for="email" class="form-label">Email address</label>
+                      <input type="email" name="email" class="form-control" id="" required>
+                    </div> -->
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+					<input type="submit" value="Add Task" class="btn btn-success">
+                </form>
+            </div>
+            <div claass="toggle">
+                <button class="All">All</button>
+                <button class="todo">Todo</button>
+                <button class="completed">Completed</button>
+            </div>
+            <div class="col-sm-6 mt-4">
+                <h1 class="alert alert-success text-center">List of Task</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Task</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var i = 1 %>
+                        <% if(data != '') { %>
+                            <% data.forEach(function(data1, index) { %>
+                            <tr>
+                                <th scope="row"><%= i++ %></th>
+                                <td><%= data1.task %></td>
+                                <td><%= data1.status %></td>
+                                <td>
+                                    <% if(data1.status == 'todo') { %>
+                                    <form action="/todocompleted/<%= data1._id %>" id="form_completed" class="d-inline" method="post">
+                                        <button type="submit" class="btn">Completed</button>
+                                    </form>
+                                    <% } %>
+                                    <% if(data1.status == 'Completed') { %>
+                                    <form action="/todocompleted/<%= data1._id %>" id="form_completed" class="d-inline" method="post">
+                                        <button type="submit" class="btn">todo</button>
+                                    </form>
+                                    <% } %>
+                                    <form action="/delete/<%= data1._id %>" class="d-inline" method="post">
+                                        <button type="submit" class="btn">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>
