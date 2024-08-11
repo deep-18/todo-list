@@ -4,4 +4,4 @@ cd /app
 npm install
 npm start
 cp -r build/* /var/www/html
-# npm install pm2 -g
+npm install pm2 -g
