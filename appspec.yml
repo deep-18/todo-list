@@ -3,7 +3,7 @@ version: 0.0
 os: linux 
 
 files:
-  - source: /
+  - source: /build
     destination: /var/www/react-app
     overwrite: true
 
